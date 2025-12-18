@@ -26,39 +26,39 @@ PIT_BOXES = [
 
 # PitSight model class
 class PitSight(nn.Module):
-    def __init__(self, num_classes=13):
+    def __init__(self):
         super().__init__()
 
         self.features = nn.Sequential(
-            nn.Conv2d(3, 16, 3, padding=1),
+            nn.Conv2d(3, 16, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            nn.Conv2d(16, 32, 3, padding=1),
+            nn.Conv2d(16, 32, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            nn.Conv2d(32, 64, 3, padding=1),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.AdaptiveAvgPool2d((1, 1))
         )
 
-        self.classifier = nn.Linear(64, num_classes)
+        self.regressor = nn.Linear(64, 1)
 
     def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        return self.classifier(x)
+      x = self.features(x)
+      x = x.view(x.size(0), -1)
+      return self.regressor(x).squeeze(1)
 
 # configurations
 CAM_INDEX = 1
-MODEL_PATH = "pitsight_v5.pt"
+MODEL_PATH = "pitsight_v7.pt"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 PLAYABLE_PITS = [0,1,2,3,4,5,7,8,9,10,11,12]
 
 # models
-pitsight = PitSight(num_classes=13)
+pitsight = PitSight()
 pitsight.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 pitsight.to(DEVICE)
 pitsight.eval()
@@ -70,6 +70,10 @@ transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize((64, 64)),
     transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
 ])
 
 # capture setup
@@ -137,7 +141,9 @@ while True:
 
             inp = transform(crop).unsqueeze(0).to(DEVICE)
             with torch.no_grad():
-                pred = pitsight(inp).argmax(dim=1).item()
+                raw_pred = pitsight(inp).item()
+                raw_pred = max(0, min(10, raw_pred))   # clamp
+                pred = int(round(raw_pred))
 
             pit_counts[pit_idx] = pred
 
