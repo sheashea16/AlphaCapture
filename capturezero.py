@@ -207,9 +207,9 @@ def train(
     replay_capacity=50000,
     start_training=500,
     target_update=1000,
-    epsilon_start=0.35,
+    epsilon_start=0.13,
     epsilon_end=0.05,
-    epsilon_decay=20000,
+    epsilon_decay=10000,
     opponent_depth=8,
     seed=0,
     save_path="dqn_mancala.pt",
@@ -294,5 +294,59 @@ def train(
         evaluate(policy_net, env, eval_games, device)
 
 
+class CaptureZero:
+    def __init__(self, model_path="dqn_mancala.pt", dqn_player=0, device=None):
+        self.dqn_player = dqn_player
+        self.rules = AlphaCapture(max_player=dqn_player)
+        if device is None:
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = device
+        self.policy_net = DQN().to(self.device)
+        self.policy_net.load_state_dict(torch.load(model_path, map_location=self.device))
+        self.policy_net.eval()
+
+    def _legal_actions(self, state):
+        board, player = state
+        if player != self.dqn_player:
+            return []
+        if self.dqn_player == 0:
+            return [i for i in range(6) if board[i] > 0]
+        return [i for i in range(6) if board[7 + i] > 0]
+
+    def _to_pit_index(self, action):
+        return action if self.dqn_player == 0 else 7 + action
+
+    def best_action(self, state):
+        legal = self._legal_actions(state)
+        if not legal:
+            return None
+        state_vec = encode_state(state, self.dqn_player)
+        with torch.no_grad():
+            q_values = self.policy_net(state_vec.to(self.device).unsqueeze(0)).squeeze(0)
+            mask = torch.full_like(q_values, -1e9)
+            mask[legal] = 0.0
+            action = int(torch.argmax(q_values + mask).item())
+        return self._to_pit_index(action)
+
+    def best_sequence(self, state):
+        sequence = []
+        current_state = state
+
+        while True:
+            board, player = current_state
+            if self.rules.terminal(current_state) or player != self.dqn_player:
+                break
+            action = self.best_action(current_state)
+            if action is None:
+                break
+            sequence.append(action)
+            next_state = self.rules.result(current_state, action)
+            if next_state[1] != self.dqn_player:
+                break
+            current_state = next_state
+
+        return sequence
+
+
 if __name__ == "__main__":
-    train(eval_games=500)
+    train(eval_games=100)
