@@ -1,6 +1,6 @@
 # AlphaCapture
 
-**[Play it →](https://web-sandy-pi-ck1rovq00i.vercel.app)**
+**[Play it →](https://alphacapture-62aded5t2-sheashea16s-projects.vercel.app)**
 
 Three approaches to the same problem: make an AI that plays Mancala well. Classical search, reinforcement learning, and a computer vision attempt at reading a physical board.
 
