@@ -1,0 +1,36 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f10;
+  --surface: #1a1a1d;
+  --border: #2a2a2e;
+  --accent: #7c6af7;
+  --accent-dim: #3d3470;
+  --text: #e8e8ec;
+  --text-muted: #6b6b78;
+  --stone-p0: #7c6af7;
+  --stone-p1: #f76a6a;
+  --pit-empty: #222228;
+  --radius: 12px;
+  --font: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 4rem;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font);
+  border: none;
+  outline: none;
+}
+
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

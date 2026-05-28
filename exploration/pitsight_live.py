@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
 import sys, os
-sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.abspath("../agents"))
 from alphacapture import AlphaCapture
 
 # pit bounding boxes
