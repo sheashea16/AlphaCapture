@@ -35,6 +35,12 @@ npm run preview
 
 ## Deployment
 
-The existing Vercel project should use `web` as its root directory, the Vite framework preset, `npm run build`, and `dist` as its output directory. The worker and model JSON are included by the production build.
+The public demo is [sheashea16.github.io/AlphaCapture](https://sheashea16.github.io/AlphaCapture/).
 
-For a résumé, link the stable **public production domain**, rather than a protected deployment-specific preview URL. Verify the link in a signed-out browser before sharing it.
+`.github/workflows/demo.yml` tests and builds every web pull request. Pushes to `main` also deploy to GitHub Pages. Pages must use **GitHub Actions** as its publishing source. No deployment secrets are needed.
+
+```sh
+npm run build:pages  # builds with the /AlphaCapture/ base path
+```
+
+The model JSON, favicon, and worker assets resolve correctly under the project subdirectory. `npm run build` remains available for root-domain hosts such as Vercel.
