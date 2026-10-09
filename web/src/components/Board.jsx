@@ -1,188 +1,109 @@
-// Board layout:
-//   P1 store (13) | P1 pits 12..7 (top row, right-to-left) | P0 store (6)
-//   P0 pits 0..5  (bottom row, left-to-right)
+import { pitNumber, playerName } from "../logic/game.js";
 
-function Stone({ color }) {
+function Stones({ count, side, store = false }) {
+  const shown = Math.min(count, store ? 20 : 14);
   return (
-    <div style={{
-      width: 10, height: 10,
-      borderRadius: "50%",
-      background: color,
-      opacity: 0.9,
-      flexShrink: 0,
-    }} />
+    <span className={`stones side-${side}`} aria-hidden="true">
+      {Array.from({ length: shown }, (_, i) => {
+        const angle = i * 2.39996;
+        const radius =
+          Math.sqrt((i + 0.5) / Math.max(shown, 1)) * (store ? 32 : 29);
+        return (
+          <span
+            className="stone"
+            key={i}
+            style={{
+              left: `${50 + Math.cos(angle) * radius}%`,
+              top: `${50 + Math.sin(angle) * radius * (store ? 1.9 : 1)}%`,
+              transform: `rotate(${i * 47}deg)`,
+            }}
+          />
+        );
+      })}
+    </span>
   );
 }
 
-function Pit({ index, count, isLegal, isHighlighted, isStore, player, onClick }) {
-  const stoneColor = player === 0 ? "var(--stone-p0)" : "var(--stone-p1)";
-  const storeColor = isStore
-    ? (index === 6 ? "var(--stone-p0)" : "var(--stone-p1)")
-    : stoneColor;
-
-  const displayCount = Math.min(count, 24);
-  const stones = Array.from({ length: displayCount });
-
-  const base = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: "0.3rem",
-    borderRadius: isStore ? "var(--radius)" : "50%",
-    background: "var(--pit-empty)",
-    border: isHighlighted
-      ? "2px solid var(--accent)"
-      : isLegal
-      ? "2px solid var(--accent-dim)"
-      : "2px solid var(--border)",
-    cursor: isLegal ? "pointer" : "default",
-    transition: "border-color 0.15s, transform 0.1s",
-    position: "relative",
-    overflow: "hidden",
-    userSelect: "none",
-    padding: "0.4rem",
-  };
-
-  return (
-    <div
-      style={{
-        ...base,
-        ...(isLegal ? { transform: "scale(1.05)" } : {}),
-      }}
-      onClick={isLegal ? onClick : undefined}
-      title={`Pit ${index}: ${count} stone${count !== 1 ? "s" : ""}`}
-    >
-      <span style={{
-        fontSize: "0.85rem",
-        fontWeight: 700,
-        color: count > 0 ? "var(--text)" : "var(--text-muted)",
-        lineHeight: 1,
-      }}>
-        {count}
-      </span>
-      <div style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 3,
-        justifyContent: "center",
-        alignContent: "center",
-        flex: 1,
-        width: "100%",
-      }}>
-        {stones.map((_, i) => <Stone key={i} color={storeColor} />)}
-        {count > 24 && <span style={{ fontSize: "0.6rem", color: "var(--text-muted)" }}>+{count - 24}</span>}
-      </div>
+export default function Board({
+  board,
+  currentPlayer,
+  legalPits,
+  activePit,
+  lastPit,
+  onPitClick,
+  onPreview,
+  mode,
+  done,
+}) {
+  const pit = (index) => (
+    <div className="pit-cell" key={index}>
+      <button
+        className={`pit side-${index < 6 ? 0 : 1} ${legalPits.includes(index) ? "legal" : ""} ${activePit === index ? "sowing" : ""} ${lastPit === index ? "last-move" : ""}`}
+        disabled={!legalPits.includes(index)}
+        onClick={() => onPitClick(index)}
+        onMouseEnter={() => onPreview(index)}
+        onMouseLeave={() => onPreview(null)}
+        onFocus={() => onPreview(index)}
+        onBlur={() => onPreview(null)}
+        aria-label={`${index < 6 ? "Your" : "Opponent"} pit ${pitNumber(index)}, ${board[index]} stones`}
+      >
+        <Stones count={board[index]} side={index < 6 ? 0 : 1} />
+        <span className="pit-count">{board[index]}</span>
+      </button>
+      <span className="pit-number">{pitNumber(index)}</span>
     </div>
   );
-}
-
-export default function Board({ board, currentPlayer, legalPits, highlighted, onPitClick, mode }) {
-  const pitSize = 72;
-  const storeW = 64;
-  const storeH = pitSize * 2 + 10;
-
-  const pitStyle = { width: pitSize, height: pitSize };
-  const storeStyle = { width: storeW, height: storeH };
-
-  // Labels
-  const p0Label = mode === "AvC" ? "AlphaCapture (P0)" : "You (P0)";
-  const p1Label = mode === "hvA" ? "AlphaCapture (P1)" : mode === "hvC" ? "CaptureZero (P1)" : "CaptureZero (P1)";
-
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", alignItems: "center" }}>
-      {/* P1 label */}
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <span style={{
-          fontSize: "0.75rem",
-          color: currentPlayer === 1 && !highlighted.length ? "var(--stone-p1)" : "var(--text-muted)",
-          fontWeight: 500,
-          transition: "color 0.2s",
-        }}>
-          {p1Label}
+    <div className="board-scene">
+      <div
+        className={`player-label top ${currentPlayer === 1 && !done ? "current" : ""}`}
+      >
+        <span className="player-dot side-1" />
+        <span>{playerName(1, mode)}</span>
+        <span className="player-type">
+          {mode === "hvA" ? "SEARCH AGENT" : "NEURAL AGENT"}
         </span>
       </div>
-
-      {/* Main board */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "0.5rem",
-        background: "var(--surface)",
-        border: "1px solid var(--border)",
-        borderRadius: "var(--radius)",
-        padding: "0.75rem",
-        width: "100%",
-        justifyContent: "center",
-      }}>
-        {/* P1 store (index 13) */}
-        <div style={storeStyle}>
-          <Pit
-            index={13}
-            count={board[13]}
-            isStore
-            player={1}
-            isLegal={false}
-            isHighlighted={false}
-          />
+      <div className="mancala-board" aria-label="Mancala board">
+        <div
+          className={`store side-1 ${activePit === 13 ? "sowing" : ""}`}
+          aria-label={`Opponent store: ${board[13]}`}
+        >
+          <Stones count={board[13]} side={1} store />
+          <span className="store-count">{board[13]}</span>
+          <span className="store-label">
+            {mode === "AvC" ? "ZERO" : "THEIRS"}
+          </span>
         </div>
-
-        {/* Pits grid: 2 rows × 6 cols */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-          {/* P1 top row: pits 12 down to 7 (right-to-left) */}
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            {[12,11,10,9,8,7].map(i => (
-              <div key={i} style={pitStyle}>
-                <Pit
-                  index={i}
-                  count={board[i]}
-                  player={1}
-                  isLegal={legalPits.includes(i)}
-                  isHighlighted={highlighted.includes(i)}
-                  onClick={() => onPitClick(i)}
-                />
-              </div>
-            ))}
+        <div className="pit-rows">
+          <div className="pit-row opponent-row">
+            {[12, 11, 10, 9, 8, 7].map(pit)}
           </div>
-          {/* P0 bottom row: pits 0 to 5 */}
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            {[0,1,2,3,4,5].map(i => (
-              <div key={i} style={pitStyle}>
-                <Pit
-                  index={i}
-                  count={board[i]}
-                  player={0}
-                  isLegal={legalPits.includes(i)}
-                  isHighlighted={highlighted.includes(i)}
-                  onClick={() => onPitClick(i)}
-                />
-              </div>
-            ))}
+          <div className="board-seam">
+            <span>←</span>
+            <span>CAPTURE / KALAH</span>
+            <span>→</span>
           </div>
+          <div className="pit-row human-row">{[0, 1, 2, 3, 4, 5].map(pit)}</div>
         </div>
-
-        {/* P0 store (index 6) */}
-        <div style={storeStyle}>
-          <Pit
-            index={6}
-            count={board[6]}
-            isStore
-            player={0}
-            isLegal={false}
-            isHighlighted={false}
-          />
+        <div
+          className={`store side-0 ${activePit === 6 ? "sowing" : ""}`}
+          aria-label={`Your store: ${board[6]}`}
+        >
+          <Stones count={board[6]} side={0} store />
+          <span className="store-count">{board[6]}</span>
+          <span className="store-label">
+            {mode === "AvC" ? "ALPHA" : "YOURS"}
+          </span>
         </div>
       </div>
-
-      {/* P0 label */}
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <span style={{
-          fontSize: "0.75rem",
-          color: currentPlayer === 0 && !highlighted.length ? "var(--stone-p0)" : "var(--text-muted)",
-          fontWeight: 500,
-          transition: "color 0.2s",
-        }}>
-          {p0Label}
+      <div
+        className={`player-label bottom ${currentPlayer === 0 && !done ? "current" : ""}`}
+      >
+        <span className="player-dot side-0" />
+        <span>{playerName(0, mode)}</span>
+        <span className="player-type">
+          {mode === "AvC" ? "SEARCH AGENT" : "HUMAN PLAYER"}
         </span>
       </div>
     </div>

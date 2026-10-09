@@ -1,44 +1,42 @@
 const MODES = [
-  { id: "hvA", label: "vs AlphaCapture", sub: "you vs minimax" },
-  { id: "hvC", label: "vs CaptureZero",  sub: "you vs RL agent" },
-  { id: "AvC", label: "AI vs AI",         sub: "minimax vs RL" },
+  {
+    id: "hvA",
+    label: "Play AlphaCapture",
+    sub: "Challenge the search agent",
+    number: "01",
+  },
+  {
+    id: "hvC",
+    label: "Play CaptureZero",
+    sub: "Challenge the neural agent",
+    number: "02",
+  },
+  {
+    id: "AvC",
+    label: "Watch them compete",
+    sub: "Search vs. reinforcement learning",
+    number: "03",
+  },
 ];
-
-export default function ModeSelector({ mode, onSelect }) {
+export default function ModeSelector({ mode, onSelect, weightsReady }) {
   return (
-    <div style={{
-      display: "flex",
-      gap: "0.6rem",
-      justifyContent: "center",
-      flexWrap: "wrap",
-    }}>
-      {MODES.map(m => {
-        const active = m.id === mode;
-        return (
-          <button
-            key={m.id}
-            onClick={() => onSelect(m.id)}
-            style={{
-              padding: "0.55rem 1rem",
-              borderRadius: 8,
-              background: active ? "var(--accent)" : "var(--surface)",
-              color: active ? "#fff" : "var(--text-muted)",
-              border: `1px solid ${active ? "var(--accent)" : "var(--border)"}`,
-              fontWeight: active ? 600 : 400,
-              fontSize: "0.85rem",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "0.1rem",
-              transition: "all 0.15s",
-              minWidth: 130,
-            }}
-          >
-            <span>{m.label}</span>
-            <span style={{ fontSize: "0.72rem", opacity: 0.7 }}>{m.sub}</span>
-          </button>
-        );
-      })}
+    <div className="mode-selector" role="group" aria-label="Game mode">
+      {MODES.map((m) => (
+        <button
+          key={m.id}
+          className={`mode-button ${m.id === mode ? "selected" : ""}`}
+          onClick={() => onSelect(m.id)}
+          disabled={m.id !== "hvA" && !weightsReady}
+          aria-pressed={m.id === mode}
+        >
+          <span className="mode-number">{m.number}</span>
+          <span>
+            <strong>{m.label}</strong>
+            <small>{m.sub}</small>
+          </span>
+          <span className="mode-indicator" />
+        </button>
+      ))}
     </div>
   );
 }

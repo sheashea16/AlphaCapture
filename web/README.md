@@ -1,16 +1,40 @@
-# React + Vite
+# AlphaCapture interactive demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A browser-based Mancala arena for exploring the difference between classical game-tree search and reinforcement learning. Built with React and Vite; both agents run locally in the visitor's browser, with no backend or account required.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm ci
+npm run dev
+```
 
-## React Compiler
+```sh
+npm test        # rules, stone conservation, and a match using real DQN weights
+npm run build  # production bundle, including the search worker
+npm run preview
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Experience
 
-## Expanding the ESLint configuration
+- Play AlphaCapture or CaptureZero; watch the agents compete with pause/resume.
+- Preview a move by hovering or focusing a playable pit. Keyboard keys 1–6 select your pits.
+- Follow animated sowing, capture explanations, extra turns, scores, and a move journal.
+- Undo your last move together with the opponent's reply.
+- Adjust AlphaCapture's search depth: 4, 6, or 8 plies.
+- Inspect measured search statistics or the neural agent's selected Q-value.
+- Responsive layouts, native rule dialog, keyboard controls, and reduced-motion support.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Implementation
+
+`src/logic/alphacapture.js` contains the original minimax/alpha-beta engine. `search.worker.js` runs each search outside the UI thread; obsolete searches are terminated on resets, mode changes, undo, and unmount.
+
+`src/logic/capturezero.js` loads and validates `public/dqn_weights.json`, then performs the trained 15→128→128→6 network's forward pass. Illegal actions are masked. Model load failures leave AlphaCapture available and expose a retry.
+
+`src/logic/game.js` derives sowing frames without mutating the live position, explains captures and extra turns, and sweeps remaining stones before final scoring. Search and inference statistics reflect actual decisions, not pre-recorded numbers.
+
+## Deployment
+
+The existing Vercel project should use `web` as its root directory, the Vite framework preset, `npm run build`, and `dist` as its output directory. The worker and model JSON are included by the production build.
+
+For a résumé, link the stable **public production domain**, rather than a protected deployment-specific preview URL. Verify the link in a signed-out browser before sharing it.

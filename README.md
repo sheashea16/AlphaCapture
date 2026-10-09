@@ -4,6 +4,10 @@
 
 Three approaches to the same problem: make an AI that plays Mancala well. Classical search, reinforcement learning, and a computer vision attempt at reading a physical board.
 
+![AlphaCapture interactive arena](web/docs/demo-desktop.jpg)
+
+The browser demo is an interactive strategy lab: animated Mancala, move previews, undo, AI-versus-AI playback, and live decision telemetry. AlphaCapture searches in a Web Worker; CaptureZero runs the trained network locally. See the [web app documentation](web/README.md) for the implementation and deployment details.
+
 ---
 
 ## The thesis
