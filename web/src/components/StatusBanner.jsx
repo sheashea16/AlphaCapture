@@ -1,61 +1,49 @@
-function winner(board) {
-  const p0 = board[6], p1 = board[13];
-  if (p0 > p1) return "AlphaCapture (P0) wins!";
-  if (p1 > p0) return "CaptureZero (P1) wins!";
-  return "Draw!";
-}
-
-function winnerHuman(board, mode) {
-  const p0 = board[6], p1 = board[13];
-  if (mode === "hvA") {
-    if (p0 > p1) return "You win!";
-    if (p1 > p0) return "AlphaCapture wins.";
-    return "Draw.";
-  }
-  if (mode === "hvC") {
-    if (p0 > p1) return "You win!";
-    if (p1 > p0) return "CaptureZero wins.";
-    return "Draw.";
-  }
-  return winner(board);
-}
-
-export default function StatusBanner({ gameState, mode, thinking, humanPlayer }) {
+import { playerName } from "../logic/game.js";
+export default function StatusBanner({
+  gameState,
+  mode,
+  thinking,
+  animating,
+  paused,
+}) {
   const { board, player, done } = gameState;
-
-  let text = "";
-  let color = "var(--text-muted)";
-
+  let title, detail;
   if (done) {
-    text = humanPlayer !== null ? winnerHuman(board, mode) : winner(board);
-    color = board[6] > board[13]
-      ? (mode !== "AvC" ? "#7cf794" : "var(--stone-p0)")
-      : board[13] > board[6]
-      ? "var(--stone-p1)"
-      : "var(--text-muted)";
+    title =
+      board[6] === board[13]
+        ? "A perfect stalemate."
+        : `${playerName(board[6] > board[13] ? 0 : 1, mode)} ${board[6] > board[13] && mode !== "AvC" ? "win" : "wins"}.`;
+    detail = `Final score ${board[6]} — ${board[13]}. All remaining stones have been collected.`;
+  } else if (animating) {
+    title = "Stones in motion.";
+    detail = "One stone in each pit. Keep an eye on where the last one lands.";
+  } else if (paused) {
+    title = mode === "AvC" ? "The arena is paused." : "The search stopped.";
+    detail =
+      mode === "AvC"
+        ? "Press resume to watch the next decision unfold."
+        : "Start a new game to retry the search.";
   } else if (thinking) {
-    const agent = mode === "hvC" || (mode === "AvC" && player === 1)
-      ? "CaptureZero"
-      : "AlphaCapture";
-    text = `${agent} is thinking…`;
-  } else if (humanPlayer !== null && player === humanPlayer) {
-    text = "Your turn — click a pit";
+    title = `${playerName(player, mode)} is thinking.`;
+    detail =
+      playerName(player, mode) === "AlphaCapture"
+        ? "Exploring future positions with alpha-beta pruning."
+        : "Evaluating this position with the trained Q-network.";
   } else {
-    text = mode === "AvC"
-      ? (player === 0 ? "AlphaCapture's turn (P0)" : "CaptureZero's turn (P1)")
-      : "";
+    title = "Your move.";
+    detail =
+      "Choose a pit on your side. Collect more stones than the AI to win.";
   }
-
   return (
-    <div style={{
-      textAlign: "center",
-      minHeight: "1.4rem",
-      fontSize: "0.9rem",
-      fontWeight: 500,
-      color,
-      transition: "color 0.2s",
-    }}>
-      {text}
+    <div className="turn-banner" role="status" aria-live="polite">
+      <span className={`turn-orb ${thinking ? "thinking" : ""}`} />
+      <div>
+        <strong>{title}</strong>
+        <p>{detail}</p>
+      </div>
+      {!done && mode !== "AvC" && !thinking && !animating && (
+        <span className="keyboard-tip">KEYS 1–6</span>
+      )}
     </div>
   );
 }

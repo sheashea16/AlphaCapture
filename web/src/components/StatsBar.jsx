@@ -1,56 +1,63 @@
-function fmt(n) {
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + "M";
-  if (n >= 1_000) return (n / 1_000).toFixed(1) + "K";
-  return String(n);
-}
-
-export default function StatsBar({ stats, thinking }) {
-  if (thinking) {
-    return (
-      <div style={containerStyle}>
-        <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>computing…</span>
-      </div>
-    );
-  }
-  if (!stats) return <div style={containerStyle} />;
-
-  const items = [];
-
-  items.push({ label: "agent", value: stats.agent });
-
-  if (stats.depth != null) items.push({ label: "depth", value: stats.depth });
-  if (stats.nodes != null) items.push({ label: "positions", value: fmt(stats.nodes) });
-  if (stats.ms != null)    items.push({ label: "time", value: `${stats.ms}ms` });
-  if (stats.value != null) items.push({ label: "eval", value: stats.value > 0 ? `+${stats.value}` : stats.value });
-  if (stats.sequence)      items.push({ label: "sequence", value: stats.sequence.join(" → ") });
-
+import Icon from "./Icon.jsx";
+const fmt = (n) =>
+  n == null
+    ? "—"
+    : new Intl.NumberFormat("en", {
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(n);
+export default function StatsBar({ stats, thinking, depth, mode }) {
+  const neural = stats ? stats.agent === "CaptureZero" : mode === "hvC";
   return (
-    <div style={containerStyle}>
-      {items.map(({ label, value }) => (
-        <span key={label} style={chipStyle}>
-          <span style={{ color: "var(--text-muted)", marginRight: "0.25rem" }}>{label}</span>
-          <span style={{ color: "var(--text)", fontVariantNumeric: "tabular-nums" }}>{value}</span>
+    <section className="inspector" aria-label="Live AI statistics">
+      <div className="section-heading">
+        <span className="eyebrow">INSIDE THE MACHINE</span>
+        <span className={`live-indicator ${thinking ? "busy" : ""}`}>
+          {thinking ? "COMPUTING" : "LIVE"}
         </span>
-      ))}
-    </div>
+      </div>
+      <h3>Every move has a reason.</h3>
+      <p className="inspector-intro">
+        {stats
+          ? `${stats.agent} chose pit ${stats.pit}. ${stats.agent === "AlphaCapture" ? "Here’s what the search explored." : "One forward pass through the trained network."}`
+          : "Make your first move to see the AI’s decision, measured in real time."}
+      </p>
+      <div className="metrics">
+        <div>
+          <span>{neural ? "Legal moves scored" : "Positions explored"}</span>
+          <strong>{fmt(neural ? stats?.choices : stats?.nodes)}</strong>
+        </div>
+        <div>
+          <span>Decision time</span>
+          <strong>
+            {stats ? (stats.ms < 1 ? "<1" : stats.ms) : "—"}
+            <small>ms</small>
+          </strong>
+        </div>
+        <div>
+          <span>{neural ? "Network depth" : "Search depth"}</span>
+          <strong>
+            {neural ? 3 : (stats?.depth ?? depth)}
+            <small>{neural ? "layers" : "plies"}</small>
+          </strong>
+        </div>
+        <div>
+          <span>{neural ? "Selected Q-value" : "Position value"}</span>
+          <strong>
+            {stats?.value == null
+              ? "—"
+              : `${stats.value > 0 ? "+" : ""}${neural ? stats.value.toFixed(2) : stats.value}`}
+          </strong>
+        </div>
+      </div>
+      <div className="inspector-note">
+        <Icon name="spark" size={16} />
+        <span>
+          {neural
+            ? "15 inputs → 128 → 128 → 6 Q-values. The highest legal Q-value wins the choice; it is not a win probability."
+            : "Alpha-beta skips branches that cannot improve the decision. Value is a heuristic score from the AI’s perspective, not a win probability."}
+        </span>
+      </div>
+    </section>
   );
 }
-
-const containerStyle = {
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "0.5rem",
-  justifyContent: "center",
-  minHeight: "2rem",
-  alignItems: "center",
-};
-
-const chipStyle = {
-  background: "var(--surface)",
-  border: "1px solid var(--border)",
-  borderRadius: 6,
-  padding: "0.25rem 0.6rem",
-  fontSize: "0.78rem",
-  fontFamily: "ui-monospace, monospace",
-  display: "inline-flex",
-};
