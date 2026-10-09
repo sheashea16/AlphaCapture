@@ -286,10 +286,6 @@ export default function App() {
       <main>
         <section className="intro">
           <div>
-            <div className="eyebrow intro-eyebrow">
-              <span className="orange-line" />
-              MANCALA
-            </div>
             <h1>
               Play <em>Mancala.</em>
             </h1>
@@ -297,11 +293,6 @@ export default function App() {
               Play against the computer, or watch AlphaCapture and CaptureZero
               <br className="desktop-break" /> play each other.
             </p>
-          </div>
-          <div className="intro-aside">
-            <span className="experiment-number">48</span>
-            <span>STONES ON THE BOARD</span>
-            <span>2 PLAYERS</span>
           </div>
         </section>
         <ModeSelector
@@ -409,10 +400,6 @@ export default function App() {
               </div>
             )}
             <div className="arena-bottom">
-              <span>
-                <span className="status-dot" />
-                {gameState.done ? "GAME OVER" : "48 STONES IN PLAY"}
-              </span>
               <label>
                 Difficulty{" "}
                 <select
