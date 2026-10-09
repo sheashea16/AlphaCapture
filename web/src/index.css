@@ -1310,7 +1310,7 @@ dialog::backdrop {
     font-size: 11px;
   }
   .metrics {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
   .metrics > div > span {
@@ -1394,4 +1394,23 @@ dialog::backdrop {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+.extra-stats {
+  border-top: 1px solid #d8deca;
+  padding-top: 14px;
+  font-size: 10px;
+  color: #6b775e;
+}
+.extra-stats summary {
+  cursor: pointer;
+}
+.extra-stats summary:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+.extra-stats p {
+  font-size: 10px;
+  line-height: 1.7;
+  margin: 10px 0 0;
 }

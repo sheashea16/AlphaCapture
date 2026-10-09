@@ -6,13 +6,13 @@ Three approaches to the same problem: make an AI that plays Mancala well. Classi
 
 ![AlphaCapture interactive arena](web/docs/demo-desktop.jpg)
 
-The browser demo is an interactive strategy lab: animated Mancala, move previews, undo, AI-versus-AI playback, and live decision telemetry. AlphaCapture searches in a Web Worker; CaptureZero runs the trained network locally. See the [web app documentation](web/README.md) for the implementation and deployment details.
+Play against either computer player, or watch them play each other. The demo includes animated moves, previews, undo, and stats for each computer move. Both players run in your browser. See the [web app documentation](web/README.md) for setup and implementation details.
 
 ---
 
 ## The thesis
 
-On a small-state game with cheap simulation, **deep search dominates a tabula-rasa DQN** — at least at the training scales I ran. AlphaCapture (minimax, depth 8) consistently beats CaptureZero (DQN trained against it). The gap is the experiment.
+I compared a player that looks ahead using minimax with one trained using reinforcement learning. In my tests so far, **AlphaCapture at depth 8 beats CaptureZero most of the time**. CaptureZero needs more training; full tournament results are still in progress.
 
 ---
 

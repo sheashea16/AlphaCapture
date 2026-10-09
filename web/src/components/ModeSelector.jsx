@@ -2,19 +2,19 @@ const MODES = [
   {
     id: "hvA",
     label: "Play AlphaCapture",
-    sub: "Challenge the search agent",
+    sub: "Looks ahead before choosing",
     number: "01",
   },
   {
     id: "hvC",
     label: "Play CaptureZero",
-    sub: "Challenge the neural agent",
+    sub: "Learned by playing games",
     number: "02",
   },
   {
     id: "AvC",
     label: "Watch them compete",
-    sub: "Search vs. reinforcement learning",
+    sub: "Let the computers play",
     number: "03",
   },
 ];

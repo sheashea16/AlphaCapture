@@ -11,28 +11,24 @@ export default function StatusBanner({
   if (done) {
     title =
       board[6] === board[13]
-        ? "A perfect stalemate."
+        ? "It’s a tie."
         : `${playerName(board[6] > board[13] ? 0 : 1, mode)} ${board[6] > board[13] && mode !== "AvC" ? "win" : "wins"}.`;
-    detail = `Final score ${board[6]} — ${board[13]}. All remaining stones have been collected.`;
+    detail = `Final score: ${board[6]} — ${board[13]}.`;
   } else if (animating) {
-    title = "Stones in motion.";
-    detail = "One stone in each pit. Keep an eye on where the last one lands.";
+    title = "Moving stones…";
+    detail = "One stone goes into each pit along the way.";
   } else if (paused) {
-    title = mode === "AvC" ? "The arena is paused." : "The search stopped.";
+    title = mode === "AvC" ? "Paused." : "Couldn’t choose a move.";
     detail =
       mode === "AvC"
-        ? "Press resume to watch the next decision unfold."
-        : "Start a new game to retry the search.";
+        ? "Press Resume to keep playing."
+        : "Start a new game to try again.";
   } else if (thinking) {
     title = `${playerName(player, mode)} is thinking.`;
-    detail =
-      playerName(player, mode) === "AlphaCapture"
-        ? "Exploring future positions with alpha-beta pruning."
-        : "Evaluating this position with the trained Q-network.";
+    detail = "Choosing a pit…";
   } else {
-    title = "Your move.";
-    detail =
-      "Choose a pit on your side. Collect more stones than the AI to win.";
+    title = "Your turn.";
+    detail = "Pick one of your pits along the bottom.";
   }
   return (
     <div className="turn-banner" role="status" aria-live="polite">
