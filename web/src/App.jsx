@@ -48,7 +48,7 @@ export default function App() {
       .then(() => setWeightsReady(true))
       .catch(() =>
         setError(
-          "CaptureZero couldn’t load. You can still play AlphaCapture, or retry the model.",
+          "CaptureZero couldn’t load. You can still play AlphaCapture, or try again.",
         ),
       );
   }, []);
@@ -168,9 +168,7 @@ export default function App() {
           );
           worker.onmessage = ({ data }) => {
             if (data.error) {
-              setError(
-                "The search hit an error. Restart the game to try again.",
-              );
+              setError("Something went wrong. Start a new game to try again.");
               setPaused(true);
               return;
             }
@@ -183,7 +181,7 @@ export default function App() {
           };
           worker.onerror = () => {
             setError(
-              "The search couldn’t start. Restart the game to try again.",
+              "The computer couldn’t make a move. Start a new game to try again.",
             );
             setPaused(true);
           };
@@ -263,7 +261,7 @@ export default function App() {
     : latest
       ? `${latest.actor} played pit ${latest.pit}. ${latest.outcome}.`
       : mode === "AvC"
-        ? "Watch the agents choose their moves. Orange is search; green is learning."
+        ? "AlphaCapture is orange. CaptureZero is green."
         : "Try pit 3 for an extra turn. Your last stone will land in your store.";
 
   return (
@@ -290,22 +288,20 @@ export default function App() {
           <div>
             <div className="eyebrow intro-eyebrow">
               <span className="orange-line" />
-              AN INTERACTIVE AI EXPERIMENT
+              MANCALA
             </div>
             <h1>
-              A small board.
-              <br />A big battle of <em>brains.</em>
+              Play <em>Mancala.</em>
             </h1>
             <p>
-              Six pits. Forty-eight stones. Two very different ways to think.
-              <br className="desktop-break" /> Play against an AI—or watch
-              search take on learning.
+              Play against the computer, or watch AlphaCapture and CaptureZero
+              <br className="desktop-break" /> play each other.
             </p>
           </div>
           <div className="intro-aside">
-            <span className="experiment-number">α / 01</span>
-            <span>MANCALA, CAPTURE MODE</span>
-            <span>HUMAN INTUITION WELCOME.</span>
+            <span className="experiment-number">48</span>
+            <span>STONES ON THE BOARD</span>
+            <span>2 PLAYERS</span>
           </div>
         </section>
         <ModeSelector
@@ -316,9 +312,7 @@ export default function App() {
         {error && (
           <div className="error-notice" role="alert">
             {error}{" "}
-            {!weightsReady && (
-              <button onClick={initWeights}>Retry model</button>
-            )}
+            {!weightsReady && <button onClick={initWeights}>Retry</button>}
           </div>
         )}
         <div className="arena-layout">
@@ -326,7 +320,7 @@ export default function App() {
             <div className="arena-toolbar">
               <div className="eyebrow">
                 <span className="arena-square" />
-                THE ARENA{" "}
+                GAME{" "}
                 <span className="round-label">
                   / MOVE{" "}
                   {String(moves.length + (gameState.done ? 0 : 1)).padStart(
@@ -417,18 +411,18 @@ export default function App() {
             <div className="arena-bottom">
               <span>
                 <span className="status-dot" />
-                {gameState.done ? "ROUND COMPLETE" : "48 STONES IN PLAY"}
+                {gameState.done ? "GAME OVER" : "48 STONES IN PLAY"}
               </span>
               <label>
-                Search depth{" "}
+                Difficulty{" "}
                 <select
                   value={depth}
                   onChange={(e) => setDepth(Number(e.target.value))}
                   disabled={animating || thinking || mode === "hvC"}
                 >
-                  <option value={4}>4 · Casual</option>
-                  <option value={6}>6 · Challenging</option>
-                  <option value={8}>8 · Expert</option>
+                  <option value={4}>Easy</option>
+                  <option value={6}>Medium</option>
+                  <option value={8}>Hard</option>
                 </select>
               </label>
             </div>
@@ -442,7 +436,7 @@ export default function App() {
             />
             <section className="move-log">
               <div className="section-heading">
-                <span className="eyebrow">MOVE JOURNAL</span>
+                <span className="eyebrow">RECENT MOVES</span>
                 <span className="journal-count">
                   {String(moves.length).padStart(2, "0")}
                 </span>
@@ -474,7 +468,7 @@ export default function App() {
               ) : (
                 <div className="empty-journal">
                   <span className="journal-lines">↗</span>
-                  <p>The story starts with your first move.</p>
+                  <p>No moves yet.</p>
                 </div>
               )}
             </section>
@@ -482,59 +476,55 @@ export default function App() {
         </div>
         <section className="research" id="experiment">
           <div className="research-heading">
-            <span className="eyebrow">THE EXPERIMENT</span>
+            <span className="eyebrow">ABOUT THIS PROJECT</span>
             <h2>
-              Same game.
+              About the
               <br />
-              <em>Different minds.</em>
+              <em>players.</em>
             </h2>
-            <p>
-              How far does looking ahead get you?
-              <br />
-              And can a neural network learn to catch up?
-            </p>
+            <p>The code, training notes, and results are on GitHub.</p>
             <a href={`${REPO}#the-thesis`} target="_blank" rel="noreferrer">
-              Explore the research <Icon name="arrow" size={17} />
+              Code and notes <Icon name="arrow" size={17} />
             </a>
           </div>
           <article className="agent-story">
             <span className="agent-symbol alpha-symbol">α</span>
-            <div className="eyebrow">01 / CLASSICAL SEARCH</div>
+            <div className="eyebrow">01 / ALPHACAPTURE</div>
             <h3>AlphaCapture</h3>
             <p>
-              Thinks ahead. A minimax search explores future moves, while
-              alpha-beta pruning cuts branches that won’t change the result.
+              Checks possible moves and replies before picking a pit. Raising
+              the difficulty makes it look further ahead.
             </p>
             <div className="agent-footnote">
-              <strong>LOOK AHEAD</strong>
-              <span>Depth {depth} · heuristic evaluation</span>
+              <strong>LOOKS AHEAD</strong>
+              <span>Up to {depth} moves</span>
             </div>
           </article>
           <article className="agent-story">
             <span className="agent-symbol zero-symbol">0</span>
-            <div className="eyebrow">02 / REINFORCEMENT LEARNING</div>
+            <div className="eyebrow">02 / CAPTUREZERO</div>
             <h3>CaptureZero</h3>
             <p>
-              Learns from experience. A deep Q-network trained against
-              AlphaCapture scores the legal moves in a single forward pass.
+              Learned by playing against AlphaCapture. It uses what it learned
+              to pick a move without playing out the next turns.
             </p>
             <div className="agent-footnote">
-              <strong>LEARN A POLICY</strong>
-              <span>15 → 128 → 128 → 6</span>
+              <strong>LEARNED BY PLAYING</strong>
+              <span>Trained against AlphaCapture</span>
             </div>
           </article>
         </section>
         <div className="research-observation">
-          <span className="eyebrow">OBSERVATION /</span>
+          <span className="eyebrow">RESULTS /</span>
           <p>
-            At the training scale explored so far, deep search wins most
-            matchups. The gap is the experiment.{" "}
+            In the games tested so far, AlphaCapture usually wins. Full
+            tournament results are still in progress.{" "}
             <a
               href={`${REPO}#capturezero--deep-q-network`}
               target="_blank"
               rel="noreferrer"
             >
-              Read the methods and limitations ↗
+              Read the results ↗
             </a>
           </p>
         </div>
@@ -544,7 +534,6 @@ export default function App() {
           <Mark />
           AlphaCapture.
         </a>
-        <span>A game you can play. An experiment you can inspect.</span>
         <a href={REPO} target="_blank" rel="noreferrer">
           Built by Shea <Icon name="external" size={14} />
         </a>
@@ -559,7 +548,7 @@ export default function App() {
       >
         <div className="rules-content">
           <div className="section-heading">
-            <span className="eyebrow">A ONE-MINUTE FIELD GUIDE</span>
+            <span className="eyebrow">THE RULES</span>
             <button
               className="icon-button"
               onClick={() => setRulesOpen(false)}
@@ -568,11 +557,7 @@ export default function App() {
               <Icon name="close" />
             </button>
           </div>
-          <h2 id="rules-title">
-            Easy to learn.
-            <br />
-            <em>Hard to outthink.</em>
-          </h2>
+          <h2 id="rules-title">How to play.</h2>
           <ol>
             <li>
               <strong>Pick a pit on your side.</strong>
@@ -583,21 +568,21 @@ export default function App() {
               </p>
             </li>
             <li>
-              <strong>Land in your store? Go again.</strong>
+              <strong>Take another turn.</strong>
               <p>
-                An extra turn can turn a small move into a big advantage. Try
-                pit 3 on the opening board.
+                If your last stone lands in your store, take another turn. Try
+                pit 3 at the start of a game.
               </p>
             </li>
             <li>
-              <strong>An empty pit can be a trap.</strong>
+              <strong>Capture the opposite stones.</strong>
               <p>
                 Land your last stone in an empty pit on your side to capture it
                 and all the stones directly opposite.
               </p>
             </li>
             <li>
-              <strong>Most stones wins.</strong>
+              <strong>Collect the most stones.</strong>
               <p>
                 When either side runs out, the remaining stones go into their
                 owner’s store. There are 48 stones; more than 24 wins.
@@ -608,7 +593,7 @@ export default function App() {
             className="primary-button"
             onClick={() => setRulesOpen(false)}
           >
-            Let’s play <Icon name="arrow" />
+            Play <Icon name="arrow" />
           </button>
         </div>
       </dialog>

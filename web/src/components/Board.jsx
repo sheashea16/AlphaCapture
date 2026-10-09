@@ -60,9 +60,6 @@ export default function Board({
       >
         <span className="player-dot side-1" />
         <span>{playerName(1, mode)}</span>
-        <span className="player-type">
-          {mode === "hvA" ? "SEARCH AGENT" : "NEURAL AGENT"}
-        </span>
       </div>
       <div className="mancala-board" aria-label="Mancala board">
         <div
@@ -81,7 +78,7 @@ export default function Board({
           </div>
           <div className="board-seam">
             <span>←</span>
-            <span>CAPTURE / KALAH</span>
+            <span>MANCALA</span>
             <span>→</span>
           </div>
           <div className="pit-row human-row">{[0, 1, 2, 3, 4, 5].map(pit)}</div>
@@ -102,9 +99,6 @@ export default function Board({
       >
         <span className="player-dot side-0" />
         <span>{playerName(0, mode)}</span>
-        <span className="player-type">
-          {mode === "AvC" ? "SEARCH AGENT" : "HUMAN PLAYER"}
-        </span>
       </div>
     </div>
   );

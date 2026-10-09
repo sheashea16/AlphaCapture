@@ -1,6 +1,6 @@
 # AlphaCapture interactive demo
 
-A browser-based Mancala arena for exploring the difference between classical game-tree search and reinforcement learning. Built with React and Vite; both agents run locally in the visitor's browser, with no backend or account required.
+Play Mancala against AlphaCapture or CaptureZero, or watch them play each other. Built with React and Vite. Both computer players run in the browser, with no backend or account required.
 
 ## Run
 
@@ -15,14 +15,14 @@ npm run build  # production bundle, including the search worker
 npm run preview
 ```
 
-## Experience
+## Features
 
 - Play AlphaCapture or CaptureZero; watch the agents compete with pause/resume.
 - Preview a move by hovering or focusing a playable pit. Keyboard keys 1–6 select your pits.
-- Follow animated sowing, capture explanations, extra turns, scores, and a move journal.
+- Follow animated sowing, capture explanations, extra turns, scores, and recent moves.
 - Undo your last move together with the opponent's reply.
 - Adjust AlphaCapture's search depth: 4, 6, or 8 plies.
-- Inspect measured search statistics or the neural agent's selected Q-value.
+- See boards checked and time taken. Open More stats for the search depth and move score.
 - Responsive layouts, native rule dialog, keyboard controls, and reduced-motion support.
 
 ## Implementation
