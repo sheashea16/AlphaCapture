@@ -81,7 +81,7 @@ button {
   display: flex;
   gap: 31px;
   align-items: center;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
 }
 .site-header nav a,
@@ -109,21 +109,10 @@ button {
 }
 .eyebrow {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: 1.1px;
   line-height: 1.5;
-}
-.intro-eyebrow {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  color: var(--muted);
-}
-.orange-line {
-  width: 21px;
-  height: 2px;
-  background: var(--orange);
 }
 h1 {
   font-family: "Manrope", sans-serif;
@@ -131,7 +120,7 @@ h1 {
   font-weight: 750;
   line-height: 1.08;
   letter-spacing: -2.8px;
-  margin: 19px 0 17px;
+  margin: 0 0 17px;
 }
 h1 em,
 h2 em {
@@ -139,30 +128,10 @@ h2 em {
   font-style: normal;
 }
 .intro p {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
   color: #70746a;
   margin: 0;
-}
-.intro-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.7px;
-  color: #93978b;
-  text-align: right;
-  padding-bottom: 4px;
-}
-.experiment-number {
-  font-family: "Manrope", sans-serif;
-  font-size: 51px;
-  line-height: 1.3;
-  font-weight: 500;
-  letter-spacing: -3px;
-  color: #c1c7b7;
-  margin-bottom: 8px;
 }
 .mode-selector {
   display: grid;
@@ -196,7 +165,7 @@ h2 em {
   box-shadow: 0 1px 4px #30372010;
 }
 .mode-number {
-  font: 10px var(--mono);
+  font: 13px var(--mono);
   color: #9da18f;
 }
 .mode-button.selected .mode-number {
@@ -204,12 +173,12 @@ h2 em {
 }
 .mode-button strong {
   display: block;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 650;
 }
 .mode-button small {
   display: block;
-  font-size: 10px;
+  font-size: 13px;
   margin-top: 4px;
   color: #888d7e;
 }
@@ -251,7 +220,7 @@ h2 em {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 9px;
+  font-size: 12px;
   white-space: nowrap;
 }
 .arena-square {
@@ -274,7 +243,7 @@ h2 em {
   color: #666d5e;
   background: transparent;
   padding: 4px 0;
-  font-size: 10px;
+  font-size: 13px;
 }
 .game-actions button:hover:not(:disabled) {
   color: var(--orange);
@@ -302,13 +271,13 @@ h2 em {
   animation: breathe 1.4s ease-in-out infinite;
 }
 .turn-banner strong {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 650;
   letter-spacing: -0.3px;
 }
 .turn-banner p {
   color: #828677;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.6;
   margin: 4px 0 0;
 }
@@ -319,7 +288,7 @@ h2 em {
   padding: 5px 6px;
   white-space: nowrap;
   color: #9a9e90;
-  font: 8px var(--mono);
+  font: 11px var(--mono);
 }
 .board-scene {
   margin: 0 22px;
@@ -329,7 +298,7 @@ h2 em {
   justify-content: center;
   align-items: center;
   gap: 7px;
-  font-size: 10px;
+  font-size: 13px;
   color: #727b67;
 }
 .player-label.top {
@@ -351,7 +320,7 @@ h2 em {
   background: #718169;
 }
 .player-type {
-  font: 7px var(--mono);
+  font: 10px var(--mono);
   color: #9aa38d;
   letter-spacing: 0.7px;
   margin-left: 5px;
@@ -390,7 +359,7 @@ h2 em {
 }
 .pit-number {
   color: #8a9779;
-  font: 8px var(--mono);
+  font: 11px var(--mono);
 }
 .pit {
   width: 100%;
@@ -468,7 +437,7 @@ h2 em {
   justify-content: center;
   color: #fffdf4;
   font-family: "Manrope", sans-serif;
-  font-size: clamp(14px, 1.8vw, 22px);
+  font-size: clamp(18px, 2vw, 24px);
   font-weight: 800;
   text-shadow:
     0 1px 5px #303c21,
@@ -501,7 +470,7 @@ h2 em {
   bottom: 15px;
   width: 100%;
   text-align: center;
-  font: 7px var(--mono);
+  font: 10px var(--mono);
   letter-spacing: 0.9px;
   color: #596c42;
 }
@@ -511,12 +480,12 @@ h2 em {
   justify-content: space-between;
   padding: 9px 2px;
   color: #9caa88;
-  font: 6px var(--mono);
+  font: 9px var(--mono);
   letter-spacing: 1.5px;
 }
 .board-seam span:first-child,
 .board-seam span:last-child {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 0.6;
 }
 .move-explanation {
@@ -526,7 +495,7 @@ h2 em {
   gap: 8px;
   padding: 23px 22px 17px;
   color: #7e856e;
-  font-size: 10px;
+  font-size: 13px;
   min-height: 54px;
 }
 .move-explanation svg {
@@ -544,14 +513,14 @@ h2 em {
   gap: 10px;
   align-items: center;
   color: #8a8e80;
-  font: 7px var(--mono);
+  font: 10px var(--mono);
   white-space: nowrap;
   letter-spacing: 0.5px;
 }
 .score-strip strong {
   color: var(--orange);
   font:
-    700 18px "Manrope",
+    700 20px "Manrope",
     sans-serif;
 }
 .score-strip > span:last-child strong {
@@ -577,25 +546,12 @@ h2 em {
   border-top: 1px solid #e7e9df;
   padding: 14px 23px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   color: #8c927e;
 }
-.arena-bottom > span {
-  font: 7px var(--mono);
-  letter-spacing: 0.6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.status-dot {
-  height: 4px;
-  width: 4px;
-  border-radius: 50%;
-  background: #99a78b;
-}
 .arena-bottom label {
-  font-size: 9px;
+  font-size: 12px;
   display: flex;
   gap: 8px;
   align-items: center;
@@ -606,7 +562,7 @@ h2 em {
   background: #f4f6ec;
   border-radius: 4px;
   color: #656f57;
-  font-size: 9px;
+  font-size: 12px;
   cursor: pointer;
 }
 .lab-sidebar {
@@ -628,7 +584,7 @@ h2 em {
 }
 .inspector .eyebrow,
 .move-log .eyebrow {
-  font-size: 8px;
+  font-size: 11px;
   letter-spacing: 0.9px;
 }
 .live-indicator {
@@ -636,7 +592,7 @@ h2 em {
   align-items: center;
   gap: 5px;
   color: #708660;
-  font: 7px var(--mono);
+  font: 10px var(--mono);
   letter-spacing: 0.5px;
 }
 .live-indicator::before {
@@ -651,14 +607,14 @@ h2 em {
 }
 .inspector h3 {
   font-family: "Manrope", sans-serif;
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.35;
   font-weight: 700;
   letter-spacing: -0.6px;
   margin: 19px 0 9px;
 }
 .inspector-intro {
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.65;
   color: #7f8673;
   margin: 0 0 23px;
@@ -672,7 +628,7 @@ h2 em {
 }
 .metrics > div > span {
   display: block;
-  font-size: 9px;
+  font-size: 12px;
   color: #828a75;
   margin-bottom: 6px;
 }
@@ -686,7 +642,7 @@ h2 em {
   gap: 5px;
 }
 .metrics small {
-  font: 8px var(--mono);
+  font: 11px var(--mono);
   letter-spacing: 0;
   color: #929982;
 }
@@ -696,7 +652,7 @@ h2 em {
   display: flex;
   gap: 8px;
   color: #8b927f;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.7;
 }
 .inspector-note svg {
@@ -708,7 +664,7 @@ h2 em {
   padding: 1px 3px;
 }
 .journal-count {
-  font: 8px var(--mono);
+  font: 11px var(--mono);
   color: #9aa18e;
 }
 .empty-journal {
@@ -723,7 +679,7 @@ h2 em {
   color: #b6bfa9;
 }
 .empty-journal p {
-  font-size: 10px;
+  font-size: 13px;
 }
 .move-log ol {
   padding: 0;
@@ -738,12 +694,12 @@ h2 em {
   border-bottom: 1px solid #e5e7dc;
 }
 .move-index {
-  font: 8px var(--mono);
+  font: 11px var(--mono);
   color: #a0a592;
   margin-top: 3px;
 }
 .move-log strong {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 550;
 }
 .move-log strong span {
@@ -751,12 +707,12 @@ h2 em {
   color: #8b9280;
 }
 .move-log li p {
-  font-size: 9px;
+  font-size: 12px;
   margin: 4px 0 0;
   color: #909784;
 }
 .move-badge {
-  font: 6px var(--mono);
+  font: 9px var(--mono);
   padding: 4px;
   border-radius: 3px;
   color: #bb7755;
@@ -774,7 +730,7 @@ h2 em {
 }
 .research-heading > .eyebrow {
   color: #919685;
-  font-size: 8px;
+  font-size: 11px;
 }
 h2 {
   font-family: "Manrope", sans-serif;
@@ -786,7 +742,7 @@ h2 {
 }
 .research-heading p {
   color: #7d8572;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.7;
   margin: 0 0 19px;
 }
@@ -795,7 +751,7 @@ h2 {
   align-items: center;
   gap: 12px;
   color: #525f48;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
 }
 .research-heading a:hover {
@@ -822,7 +778,7 @@ h2 {
   color: #7c8a68;
 }
 .agent-story .eyebrow {
-  font-size: 8px;
+  font-size: 11px;
   color: #9ba08f;
   letter-spacing: 0.7px;
 }
@@ -835,7 +791,7 @@ h2 {
 }
 .agent-story p {
   color: #7e8574;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.8;
   margin: 0 0 18px;
 }
@@ -843,11 +799,11 @@ h2 {
   display: flex;
   gap: 7px;
   flex-direction: column;
-  font-size: 9px;
+  font-size: 12px;
   color: #979e8b;
 }
 .agent-footnote strong {
-  font: 7px var(--mono);
+  font: 10px var(--mono);
   letter-spacing: 0.8px;
   color: #748165;
 }
@@ -860,14 +816,14 @@ h2 {
   background: #eef0e5;
 }
 .research-observation .eyebrow {
-  font-size: 8px;
+  font-size: 11px;
   color: #8e987d;
   white-space: nowrap;
   padding-top: 2px;
 }
 .research-observation p {
   margin: 0;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.8;
   color: #7f8872;
 }
@@ -883,10 +839,10 @@ footer {
   border-top: 1px solid var(--line);
   padding: 23px 0 29px;
   color: #939989;
-  font-size: 9px;
+  font-size: 12px;
 }
 .footer-brand {
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: -0.4px;
   color: #6d7760;
   gap: 6px;
@@ -905,7 +861,7 @@ footer > a:last-child {
   padding: 12px 16px;
   background: #faeade;
   border: 1px solid #e7cbb6;
-  font-size: 12px;
+  font-size: 15px;
   border-radius: 6px;
   margin-bottom: 16px;
 }
@@ -926,7 +882,7 @@ footer > a:last-child {
   gap: 17px;
   border-radius: 5px;
   padding: 13px 20px;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   background: var(--orange);
   color: #fff9ef;
@@ -977,14 +933,14 @@ dialog::backdrop {
   margin: 0 0 20px;
 }
 .rules-content li::marker {
-  font: 10px var(--mono);
+  font: 13px var(--mono);
   color: var(--orange);
 }
 .rules-content strong {
-  font-size: 13px;
+  font-size: 16px;
 }
 .rules-content p {
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.7;
   margin: 6px 0 0;
   color: #7a826e;
@@ -1123,8 +1079,8 @@ dialog::backdrop {
     height: 25px;
   }
   .site-header nav {
-    gap: 15px;
-    font-size: 10px;
+    gap: 12px;
+    font-size: 12px;
   }
   .text-button svg {
     display: none;
@@ -1141,19 +1097,12 @@ dialog::backdrop {
   h1 {
     font-size: 42px;
     letter-spacing: -2.3px;
-    margin-top: 16px;
+    margin-top: 0;
   }
   .intro p {
-    font-size: 12px;
+    font-size: 15px;
     line-height: 1.8;
     max-width: 330px;
-  }
-  .intro-aside {
-    display: none;
-  }
-  .intro-eyebrow {
-    font-size: 8px;
-    letter-spacing: 0.9px;
   }
   .mode-selector {
     gap: 3px;
@@ -1167,7 +1116,7 @@ dialog::backdrop {
     text-align: center;
   }
   .mode-button strong {
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 600;
     line-height: 1.5;
   }
@@ -1175,16 +1124,17 @@ dialog::backdrop {
     display: none;
   }
   .mode-number {
-    font-size: 8px;
+    font-size: 11px;
   }
   .mode-indicator {
     display: none;
   }
   .arena-toolbar {
+    flex-wrap: wrap;
     padding: 17px 14px 0;
   }
   .arena-toolbar > .eyebrow {
-    font-size: 8px;
+    font-size: 11px;
     gap: 5px;
     letter-spacing: 0.5px;
   }
@@ -1195,7 +1145,7 @@ dialog::backdrop {
     gap: 10px;
   }
   .game-actions button {
-    font-size: 9px;
+    font-size: 12px;
     gap: 4px;
   }
   .game-actions svg {
@@ -1207,17 +1157,17 @@ dialog::backdrop {
     gap: 10px;
   }
   .turn-banner strong {
-    font-size: 15px;
+    font-size: 17px;
   }
   .turn-banner p {
-    font-size: 10px;
+    font-size: 13px;
     max-width: 280px;
   }
   .board-scene {
     margin: 0 11px;
   }
   .mancala-board {
-    grid-template-columns: 30px minmax(0, 1fr) 30px;
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
     gap: 6px;
     padding: 16px 9px 13px;
     border-radius: 45px;
@@ -1233,19 +1183,19 @@ dialog::backdrop {
     min-height: 44px;
   }
   .pit-count {
-    font-size: 16px;
+    font-size: 18px;
   }
   .pit-cell {
     gap: 5px;
   }
   .pit-number {
-    font-size: 6px;
+    font-size: 9px;
   }
   .store-count {
     font-size: 21px;
   }
   .store-label {
-    font-size: 5px;
+    font-size: 8px;
     letter-spacing: 0.5px;
     bottom: 10px;
   }
@@ -1254,46 +1204,54 @@ dialog::backdrop {
   }
   .board-seam {
     padding: 8px 0;
-    font-size: 5px;
+    font-size: 8px;
     letter-spacing: 0.8px;
   }
   .player-label {
-    font-size: 9px;
+    font-size: 12px;
   }
   .player-type {
-    font-size: 6px;
+    font-size: 9px;
   }
   .move-explanation {
-    font-size: 9px;
+    font-size: 12px;
     line-height: 1.6;
     padding: 22px 17px 15px;
     min-height: 63px;
     justify-content: flex-start;
   }
   .score-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     padding: 0 17px 21px;
-    gap: 8px;
+    gap: 10px;
+  }
+  .score-track {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .score-strip > span:last-child {
+    justify-self: end;
   }
   .score-strip > span {
-    font-size: 6px;
+    font-size: 9px;
     gap: 7px;
     letter-spacing: 0.2px;
   }
   .score-strip strong {
-    font-size: 16px;
+    font-size: 18px;
   }
   .arena-bottom {
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 12px 14px;
   }
-  .arena-bottom > span {
-    font-size: 6px;
-  }
   .arena-bottom label {
-    font-size: 8px;
+    font-size: 11px;
     gap: 5px;
   }
   .arena-bottom select {
-    font-size: 8px;
+    font-size: 11px;
     padding-right: 5px;
   }
   .lab-sidebar {
@@ -1304,17 +1262,17 @@ dialog::backdrop {
     padding: 20px;
   }
   .inspector h3 {
-    font-size: 18px;
+    font-size: 20px;
   }
   .inspector-intro {
-    font-size: 11px;
+    font-size: 14px;
   }
   .metrics {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
   .metrics > div > span {
-    font-size: 8px;
+    font-size: 11px;
     min-height: 22px;
   }
   .metrics strong {
@@ -1322,7 +1280,7 @@ dialog::backdrop {
     gap: 3px;
   }
   .metrics small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .move-log {
     padding: 13px 4px;
@@ -1340,7 +1298,7 @@ dialog::backdrop {
     font-size: 32px;
   }
   .research-heading p {
-    font-size: 12px;
+    font-size: 15px;
   }
   .agent-story {
     padding-left: 0;
@@ -1351,13 +1309,13 @@ dialog::backdrop {
     left: 0;
   }
   .agent-story h3 {
-    font-size: 18px;
+    font-size: 20px;
   }
   .agent-story p {
-    font-size: 11px;
+    font-size: 14px;
   }
   .agent-story .eyebrow {
-    font-size: 7px;
+    font-size: 10px;
     letter-spacing: 0.3px;
   }
   .research-observation {
@@ -1374,7 +1332,7 @@ dialog::backdrop {
   footer > span {
     order: 3;
     width: 100%;
-    font-size: 9px;
+    font-size: 12px;
   }
   footer > a:last-child {
     margin-left: auto;
@@ -1384,6 +1342,19 @@ dialog::backdrop {
   }
   .desktop-break {
     display: none;
+  }
+}
+@media (max-width: 360px) {
+  .site-header {
+    height: auto;
+    min-height: 75px;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 18px 0;
+  }
+  .site-header nav {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1399,7 +1370,7 @@ dialog::backdrop {
 .extra-stats {
   border-top: 1px solid #d8deca;
   padding-top: 14px;
-  font-size: 10px;
+  font-size: 13px;
   color: #6b775e;
 }
 .extra-stats summary {
@@ -1410,7 +1381,7 @@ dialog::backdrop {
   outline-offset: 4px;
 }
 .extra-stats p {
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.7;
   margin: 10px 0 0;
 }
